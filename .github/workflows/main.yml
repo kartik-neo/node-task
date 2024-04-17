@@ -42,7 +42,7 @@ jobs:
           node-version: '14'
 
       - name: Install Heroku CLI
-        uses: actions/heroku@v3
+        uses: actions/heroku
         with:
           heroku-api-key: ${{ secrets.HEROKU_API_KEY }}
 
