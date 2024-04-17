@@ -3,7 +3,7 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - main  # Adjust the branch name if necessary
+      - main
 
 jobs:
   test:
@@ -16,7 +16,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14'  # Adjust Node.js version if necessary
+          node-version: '14'
 
       - name: Install dependencies
         run: npm install
@@ -30,7 +30,7 @@ jobs:
 
     env:
       HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      HEROKU_APP_NAME: your-heroku-app-name  # Replace with your Heroku app name
+      HEROKU_APP_NAME: your-heroku-app-name
 
     steps:
       - name: Checkout code
@@ -39,7 +39,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14'  # Adjust Node.js version if necessary
+          node-version: '14'
 
       - name: Install Heroku CLI
         uses: actions/heroku@v3
