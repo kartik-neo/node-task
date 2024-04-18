@@ -45,7 +45,9 @@ jobs:
         uses: docker/setup-buildx-action@v1
 
       - name: Install Heroku CLI
-        uses: docker://ghcr.io/actions/heroku
+        uses: |
+          docker pull heroku/heroku # Pull the official Heroku CLI Docker image
+          docker run --rm -e HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} -v ${{ github.workspace }}:/workspace heroku/heroku:latest bash -c 'heroku login && git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git HEAD:refs/heads/main'
         with:
           heroku-api-key: ${{ secrets.HEROKU_API_KEY }}
 
