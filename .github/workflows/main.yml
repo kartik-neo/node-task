@@ -1,3 +1,25 @@
+Skip to content
+ManasKumarJena
+/
+node-task
+
+Type / to search
+
+Code
+Issues
+Pull requests
+Actions
+Projects
+Wiki
+Security
+Insights
+Settings
+CI/CD Pipeline
+Update main.yml #18
+Jobs
+Run details
+Workflow file for this run
+.github/workflows/main.yml at 4e22546
 name: CI/CD Pipeline
 
 on:
@@ -31,6 +53,8 @@ jobs:
     env:
       HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       HEROKU_APP_NAME: your-heroku-app-name
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
 
     steps:
       - name: Checkout code
@@ -41,13 +65,17 @@ jobs:
         with:
           node-version: '14'
 
+      - name: Log in to Docker Hub
+        run: echo "${DOCKERHUB_TOKEN}" | docker login -u "${DOCKERHUB_USERNAME}" --password-stdin
+
+      - name: Pull Docker image from Docker Hub
+        run: docker pull heroku/heroku
+        
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
       - name: Install Heroku CLI
-        uses: |
-          docker pull heroku/heroku # Pull the official Heroku CLI Docker image
-          docker run --rm -e HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} -v ${{ github.workspace }}:/workspace heroku/heroku:latest bash -c 'heroku login && git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git HEAD:refs/heads/main'
+        uses: docker://ghcr.io/actions/heroku
         with:
           heroku-api-key: ${{ secrets.HEROKU_API_KEY }}
 
@@ -55,3 +83,4 @@ jobs:
         run: |
           echo "Deploying to Heroku..."
           git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git HEAD:refs/heads/main
+Update main.yml · ManasKumarJena/node-task@4e22546 
