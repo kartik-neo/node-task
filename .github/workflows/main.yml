@@ -42,7 +42,7 @@ jobs:
           node-version: '14'
       - name: Pull Docker image from GHCR
         run: |
-          docker login ghcr.io -u ManasKumarJena -p ${{ secrets.GHCR_PAT }}
+          docker login ghcr.io -u kartik-neo -p ${{ secrets.GHCR_PAT }}
           docker pull ghcr.io/actions/heroku
           
       - name: Set up Docker Buildx
